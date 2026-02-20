@@ -4,6 +4,8 @@ let lastChunk = "";
 
 let paused = false;
 let currentDelay = 0;
+let voices = [];
+const voiceSelect = document.getElementById("voiceSelect");
 
 /* Elements */
 const textBox = document.getElementById("text");
@@ -59,8 +61,10 @@ function speakNext() {
 
   highlightChunk(index);
 
-  const utter = new SpeechSynthesisUtterance(chunk);
+const utter = new SpeechSynthesisUtterance(chunk);
 
+const selectedVoice = voices[voiceSelect.value];
+if (selectedVoice) utter.voice = selectedVoice;
   utter.onend = () => {
     if (!paused) {
       index++;
@@ -94,8 +98,9 @@ function repeatChunk() {
 
   speechSynthesis.cancel();
 
-  const utter = new SpeechSynthesisUtterance(lastChunk);
-  speechSynthesis.speak(utter);
+const utter = new SpeechSynthesisUtterance(lastChunk);
+const selectedVoice = voices[voiceSelect.value];
+if (selectedVoice) utter.voice = selectedVoice;  speechSynthesis.speak(utter);
 }
 
 /* PAUSE */
@@ -110,3 +115,18 @@ function resumeReading() {
   paused = false;
   speakNext();
 }
+
+function loadVoices() {
+
+  voices = speechSynthesis.getVoices();
+  voiceSelect.innerHTML = "";
+
+  voices.forEach((voice, i) => {
+    const option = document.createElement("option");
+    option.value = i;
+    option.textContent = `${voice.name} (${voice.lang})`;
+    voiceSelect.appendChild(option);
+  });
+}
+
+speechSynthesis.onvoiceschanged = loadVoices;
