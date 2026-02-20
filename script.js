@@ -1,4 +1,5 @@
 // File upload → PDF reader logic
+// File upload → PDF reader logic
 const fileInput = document.getElementById("fileInput");
 const textArea = document.getElementById("text");
 
