@@ -69,29 +69,23 @@ delaySlider.oninput = () => delayValue.textContent = delaySlider.value;
 /* START DICTATION */
 function startReading() {
 
-  speechSynthesis.cancel();
+  const textarea = document.getElementById("text");
 
-  const text = textBox.value.trim();
-  const wordsPerChunk = parseInt(chunkSlider.value);
-  const delay = parseInt(delaySlider.value) * 1000;
+  // Read selected text if any
+  let textToRead = textarea.value;
 
-  currentDelay = delay;
-  paused = false;
+  const start = textarea.selectionStart;
+  const end = textarea.selectionEnd;
 
-  const words = text.split(/\s+/);
-  chunks = [];
-
-  for (let i = 0; i < words.length; i += wordsPerChunk) {
-    chunks.push(words.slice(i, i + wordsPerChunk).join(" "));
+  if (start !== end) {
+    textToRead = textarea.value.substring(start, end);
   }
 
-  /* Switch UI */
-  inputArea.style.display = "none";
-  readingArea.style.display = "block";
+  if (!textToRead.trim()) {
+    alert("Please select or enter text to read");
+    return;
+  }
 
-  index = 0;
-  speakNext();
-}
 
 /* SPEAK NEXT CHUNK */
 function speakNext() {
