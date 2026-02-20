@@ -64,18 +64,13 @@ button {
 
 .btns button {
   margin-top: 10px;
+  margin-top: 10px;
 }
 
 button:hover {
   background: #3730a3;
 }
 
-/* Highlighted chunk */
-.highlight {
-  background: #fde68a;
-  padding: 2px 6px;
-  border-radius: 4px;
-}
 /* Slider styling */
 input[type="range"] {
   width: 100%;
@@ -87,4 +82,28 @@ input[type="range"] {
   font-size: 14px;
   margin-top: 10px;
   display: block;
+}
+/* Reading panel */
+#readingArea {
+  margin-top: 20px;
+}
+
+/* Wide reading display */
+#displayText {
+  font-size: 22px;
+  line-height: 1.8;
+  padding: 25px;
+  border-radius: 12px;
+  background: #f1f5f9;
+  min-height: 120px;
+}
+/* Current chunk */
+.current {
+  color: #000;
+  font-weight: bold;
+}
+
+/* Past + future chunks */
+.muted {
+  color: #9ca3af;
 }

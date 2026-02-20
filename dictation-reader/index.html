@@ -7,24 +7,34 @@
 <body>
 
 <div class="container">
+
   <h2>Smart Dictation Reader</h2>
 
-  <textarea id="text" rows="6">
-Paste your notes here...
-  </textarea>
+  <!-- INPUT AREA -->
+  <div id="inputArea">
+    <textarea id="text" rows="6">Paste your notes here...</textarea>
 
-  <div class="controls">
-  <label>Words per chunk: <span id="chunkValue">3</span></label>
-  <input type="range" id="chunk" min="1" max="20" value="3">
+    <div class="controls">
+      <label>Words per chunk: <span id="chunkValue">3</span></label>
+      <input type="range" id="chunk" min="1" max="20" value="3">
 
-  <label>Delay: <span id="delayValue">2</span>s</label>
-  <input type="range" id="delay" min="0" max="20" value="2">
+      <label>Delay: <span id="delayValue">2</span>s</label>
+      <input type="range" id="delay" min="0" max="20" value="2">
+    </div>
+
+    <button onclick="startReading()">Start Dictation</button>
   </div>
 
-  <div class="btns">
-  <button onclick="startReading()">Start Dictation</button>
-  <button onclick="repeatChunk()">Repeat Last Chunk</button>
+  <!-- READING AREA -->
+  <div id="readingArea" style="display:none;">
+    <div id="displayText"></div>
+
+    <div class="btns">
+      <button onclick="repeatChunk()">Repeat Last Chunk</button>
+    </div>
   </div>
+
+</div>
 
 <script src="script.js"></script>
 </body>
