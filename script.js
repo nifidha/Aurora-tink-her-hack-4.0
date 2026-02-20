@@ -1,36 +1,45 @@
-// File upload → PDF reader logic
-// File upload → PDF reader logic
-const fileInput = document.getElementById("fileInput");
-const textArea = document.getElementById("text");
+document.addEventListener("DOMContentLoaded", () => {
 
-fileInput.addEventListener("change", async function () {
-  const file = this.files[0];
-  if (!file) return;
+  const fileInput = document.getElementById("fileInput");
+  const textArea = document.getElementById("text");
 
-  if (file.type !== "application/pdf") {
-    alert("Please upload a PDF file");
+  if (!fileInput || !textArea) {
+    console.error("File input or textarea not found");
     return;
   }
 
-  const reader = new FileReader();
-  reader.onload = async function () {
-    const typedarray = new Uint8Array(this.result);
-    const pdf = await pdfjsLib.getDocument(typedarray).promise;
+  fileInput.addEventListener("change", async () => {
+    const file = fileInput.files[0];
+    if (!file) return;
 
-    let fullText = "";
-
-    for (let i = 1; i <= pdf.numPages; i++) {
-      const page = await pdf.getPage(i);
-      const content = await page.getTextContent();
-      content.items.forEach(item => {
-        fullText += item.str + " ";
-      });
+    if (file.type !== "application/pdf") {
+      alert("Please upload a PDF file");
+      return;
     }
 
-    textArea.value = fullText;
-  };
+    textArea.value = "Reading PDF… please wait.";
 
-  reader.readAsArrayBuffer(file);
+    const reader = new FileReader();
+    reader.onload = async function () {
+      const typedarray = new Uint8Array(this.result);
+      const pdf = await pdfjsLib.getDocument(typedarray).promise;
+
+      let extractedText = "";
+
+      for (let i = 1; i <= pdf.numPages; i++) {
+        const page = await pdf.getPage(i);
+        const content = await page.getTextContent();
+        content.items.forEach(item => {
+          extractedText += item.str + " ";
+        });
+      }
+
+      textArea.value = extractedText.trim();
+    };
+
+    reader.readAsArrayBuffer(file);
+  });
+
 });
 let chunks = [];
 let index = 0;
