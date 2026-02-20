@@ -1,3 +1,36 @@
+// File upload → PDF reader logic
+const fileInput = document.getElementById("fileInput");
+const textArea = document.getElementById("text");
+
+fileInput.addEventListener("change", async function () {
+  const file = this.files[0];
+  if (!file) return;
+
+  if (file.type !== "application/pdf") {
+    alert("Please upload a PDF file");
+    return;
+  }
+
+  const reader = new FileReader();
+  reader.onload = async function () {
+    const typedarray = new Uint8Array(this.result);
+    const pdf = await pdfjsLib.getDocument(typedarray).promise;
+
+    let fullText = "";
+
+    for (let i = 1; i <= pdf.numPages; i++) {
+      const page = await pdf.getPage(i);
+      const content = await page.getTextContent();
+      content.items.forEach(item => {
+        fullText += item.str + " ";
+      });
+    }
+
+    textArea.value = fullText;
+  };
+
+  reader.readAsArrayBuffer(file);
+});
 let chunks = [];
 let index = 0;
 let lastChunk = "";
@@ -110,33 +143,3 @@ function resumeReading() {
   paused = false;
   speakNext();
 }
-const fileInput = document.getElementById("fileInput");
-const textArea = document.getElementById("text");
-
-fileInput.addEventListener("change", async function () {
-  const file = this.files[0];
-  if (!file || file.type !== "application/pdf") {
-    alert("Please upload a PDF file");
-    return;
-  }
-
-  const reader = new FileReader();
-  reader.onload = async function () {
-    const typedarray = new Uint8Array(this.result);
-    const pdf = await pdfjsLib.getDocument(typedarray).promise;
-
-    let fullText = "";
-
-    for (let i = 1; i <= pdf.numPages; i++) {
-      const page = await pdf.getPage(i);
-      const content = await page.getTextContent();
-      content.items.forEach(item => {
-        fullText += item.str + " ";
-      });
-    }
-
-    textArea.value = fullText;
-  };
-
-  reader.readAsArrayBuffer(file);
-});
