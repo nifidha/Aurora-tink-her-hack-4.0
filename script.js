@@ -1,9 +1,11 @@
 let chunks = [];
 let index = 0;
 let lastChunk = "";
+
 let paused = false;
 let currentDelay = 0;
 
+/* Elements */
 const textBox = document.getElementById("text");
 const chunkSlider = document.getElementById("chunk");
 const delaySlider = document.getElementById("delay");
@@ -15,10 +17,11 @@ const inputArea = document.getElementById("inputArea");
 const readingArea = document.getElementById("readingArea");
 const displayText = document.getElementById("displayText");
 
-/* Slider display updates */
+/* Slider labels update */
 chunkSlider.oninput = () => chunkValue.textContent = chunkSlider.value;
 delaySlider.oninput = () => delayValue.textContent = delaySlider.value;
 
+/* START DICTATION */
 function startReading() {
 
   speechSynthesis.cancel();
@@ -37,14 +40,16 @@ function startReading() {
     chunks.push(words.slice(i, i + wordsPerChunk).join(" "));
   }
 
+  /* Switch UI */
   inputArea.style.display = "none";
   readingArea.style.display = "block";
 
   index = 0;
-  speakNext(delay);
+  speakNext();
 }
 
-function speakNext(delay) {
+/* SPEAK NEXT CHUNK */
+function speakNext() {
 
   if (paused) return;
   if (index >= chunks.length) return;
@@ -59,30 +64,30 @@ function speakNext(delay) {
   utter.onend = () => {
     if (!paused) {
       index++;
-      setTimeout(() => speakNext(delay), delay);
+      setTimeout(speakNext, currentDelay);
     }
   };
 
   speechSynthesis.speak(utter);
 }
 
+/* HIGHLIGHT CURRENT CHUNK */
 function highlightChunk(currentIndex) {
 
   let html = "";
 
   chunks.forEach((c, i) => {
-
     if (i === currentIndex) {
       html += `<span class="current">${c}</span> `;
     } else {
       html += `<span class="muted">${c}</span> `;
     }
-
   });
 
   displayText.innerHTML = html;
 }
-/* Repeat button */
+
+/* REPEAT LAST CHUNK */
 function repeatChunk() {
 
   if (!lastChunk) return;
@@ -92,14 +97,16 @@ function repeatChunk() {
   const utter = new SpeechSynthesisUtterance(lastChunk);
   speechSynthesis.speak(utter);
 }
+
+/* PAUSE */
 function pauseReading() {
   paused = true;
-  speechSynthesis.cancel(); // stop speaking immediately
+  speechSynthesis.cancel();
 }
 
+/* RESUME */
 function resumeReading() {
   if (!paused) return;
-
   paused = false;
-  speakNext(currentDelay);
+  speakNext();
 }
