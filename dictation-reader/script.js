@@ -48,3 +48,13 @@ function speakNext(delay) {
 
   speechSynthesis.speak(utter);
 }
+
+function repeatChunk() {
+
+  if (!lastChunk) return;
+
+  speechSynthesis.cancel(); // stop current speech
+
+  const utter = new SpeechSynthesisUtterance(lastChunk);
+  speechSynthesis.speak(utter);
+}

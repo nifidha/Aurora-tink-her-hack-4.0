@@ -62,6 +62,10 @@ button {
   width: 100%;
 }
 
+.btns button {
+  margin-top: 10px;
+}
+
 button:hover {
   background: #3730a3;
 }
