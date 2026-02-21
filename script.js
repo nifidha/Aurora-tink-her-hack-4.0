@@ -73,22 +73,7 @@ const startLine = parseInt(document.getElementById("startLine").value) || 1;
 const endLine = parseInt(document.getElementById("endLine").value) || lines.length;
 
 const selectedLines = lines.slice(startLine - 1, endLine).join(" ");
-  const textarea = document.getElementById("text");
-
-  // Read selected text if any
-  let textToRead = textarea.value;
-
-  const start = textarea.selectionStart;
-  const end = textarea.selectionEnd;
-
-  if (start !== end) {
-    textToRead = textarea.value.substring(start, end);
-  }
-
-  if (!textToRead.trim()) {
-    alert("Please select or enter text to read");
-    return;
-  }
+ 
 
 
 /* SPEAK NEXT CHUNK */
