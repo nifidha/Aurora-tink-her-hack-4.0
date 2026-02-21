@@ -68,16 +68,45 @@ delaySlider.oninput = () => delayValue.textContent = delaySlider.value;
 
 /* START DICTATION */
 function startReading() {
-const lines = textarea.value.split("\n");
-const startLine = parseInt(document.getElementById("startLine").value) || 1;
-const endLine = parseInt(document.getElementById("endLine").value) || lines.length;
+  paused = false;
+  speechSynthesis.cancel();
 
-const selectedLines = lines.slice(startLine - 1, endLine).join(" ");
- 
+  // ✅ USE CORRECT TEXTAREA
+  const textarea = document.getElementById("text");
 
+  let textToRead = textarea.value;
 
-/* SPEAK NEXT CHUNK */
-function speakNext() {
+  // ✅ OPTION A: Highlight selection (recommended)
+  const start = textarea.selectionStart;
+  const end = textarea.selectionEnd;
+
+  if (start !== end) {
+    textToRead = textarea.value.substring(start, end);
+  }
+
+  if (!textToRead.trim()) {
+    alert("Please select or enter text to read");
+    return;
+  }
+
+  // ✅ Chunk + delay
+  const chunkSize = parseInt(chunkSlider.value);
+  currentDelay = parseInt(delaySlider.value) * 1000;
+
+  const words = textToRead.split(/\s+/);
+  chunks = [];
+
+  for (let i = 0; i < words.length; i += chunkSize) {
+    chunks.push(words.slice(i, i + chunkSize).join(" "));
+  }
+
+  index = 0;
+
+  inputArea.style.display = "none";
+  readingArea.style.display = "block";
+
+  speakNext(); // 🔊 START SPEAKING
+}{
 
   if (paused) return;
   if (index >= chunks.length) return;
