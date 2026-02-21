@@ -68,7 +68,11 @@ delaySlider.oninput = () => delayValue.textContent = delaySlider.value;
 
 /* START DICTATION */
 function startReading() {
+const lines = textarea.value.split("\n");
+const startLine = parseInt(document.getElementById("startLine").value) || 1;
+const endLine = parseInt(document.getElementById("endLine").value) || lines.length;
 
+const selectedLines = lines.slice(startLine - 1, endLine).join(" ");
   const textarea = document.getElementById("text");
 
   // Read selected text if any
