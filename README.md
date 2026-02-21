@@ -37,10 +37,18 @@ The system is implemented as a web-based application that runs entirely in the b
 ## Features
 
 List the key features of your project:
-- Feature 1: [Description]
-- Feature 2: [Description]
-- Feature 3: [Description]
-- Feature 4: [Description]
+- Feature 1: PDF-Based Text Input
+
+Users can upload PDF files directly into the web application. The system extracts text from the document within the browser itself, eliminating the need for manual copy-paste and ensuring data privacy.
+- Feature 2: Selective Dictation Control
+
+The application allows users to select specific portions of text (by highlighting) from the uploaded content. Only the selected text is read aloud, enabling focused listening and efficient learning
+- Feature 3: Customizable Dictation Settings
+
+Users can control the number of words read at a time and set a delay between chunks. This helps adjust the reading pace based on individual comfort and comprehension levels
+- Feature 4: Interactive Text-to-Speech Playback
+
+The web app provides clear audio output with controls such as start, pause, resume, and repeat. The currently spoken text chunk is visually highlighted to improve user engagement and understanding.
 
 ---
 
