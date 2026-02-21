@@ -1,35 +1,45 @@
-// File upload → PDF reader logic
-const fileInput = document.getElementById("fileInput");
-const textArea = document.getElementById("text");
+document.addEventListener("DOMContentLoaded", () => {
 
-fileInput.addEventListener("change", async function () {
-  const file = this.files[0];
-  if (!file) return;
+  const fileInput = document.getElementById("fileInput");
+  const textArea = document.getElementById("text");
 
-  if (file.type !== "application/pdf") {
-    alert("Please upload a PDF file");
+  if (!fileInput || !textArea) {
+    console.error("File input or textarea not found");
     return;
   }
 
-  const reader = new FileReader();
-  reader.onload = async function () {
-    const typedarray = new Uint8Array(this.result);
-    const pdf = await pdfjsLib.getDocument(typedarray).promise;
+  fileInput.addEventListener("change", async () => {
+    const file = fileInput.files[0];
+    if (!file) return;
 
-    let fullText = "";
-
-    for (let i = 1; i <= pdf.numPages; i++) {
-      const page = await pdf.getPage(i);
-      const content = await page.getTextContent();
-      content.items.forEach(item => {
-        fullText += item.str + " ";
-      });
+    if (file.type !== "application/pdf") {
+      alert("Please upload a PDF file");
+      return;
     }
 
-    textArea.value = fullText;
-  };
+    textArea.value = "Reading PDF… please wait.";
 
-  reader.readAsArrayBuffer(file);
+    const reader = new FileReader();
+    reader.onload = async function () {
+      const typedarray = new Uint8Array(this.result);
+      const pdf = await pdfjsLib.getDocument(typedarray).promise;
+
+      let extractedText = "";
+
+      for (let i = 1; i <= pdf.numPages; i++) {
+        const page = await pdf.getPage(i);
+        const content = await page.getTextContent();
+        content.items.forEach(item => {
+          extractedText += item.str + " ";
+        });
+      }
+
+      textArea.value = extractedText.trim();
+    };
+
+    reader.readAsArrayBuffer(file);
+  });
+
 });
 let chunks = [];
 let index = 0;
@@ -58,7 +68,7 @@ delaySlider.oninput = () => delayValue.textContent = delaySlider.value;
 
 /* START DICTATION */
 function startReading() {
-
+  paused = false;
   speechSynthesis.cancel();
 
   const text = textBox.value.trim();
@@ -68,23 +78,20 @@ function startReading() {
   currentDelay = delay;
   paused = false;
 
-  const words = text.split(/\s+/);
+  const words = textToRead.split(/\s+/);
   chunks = [];
 
-  for (let i = 0; i < words.length; i += wordsPerChunk) {
-    chunks.push(words.slice(i, i + wordsPerChunk).join(" "));
+  for (let i = 0; i < words.length; i += chunkSize) {
+    chunks.push(words.slice(i, i + chunkSize).join(" "));
   }
 
-  /* Switch UI */
+  index = 0;
+
   inputArea.style.display = "none";
   readingArea.style.display = "block";
 
-  index = 0;
-  speakNext();
-}
-
-/* SPEAK NEXT CHUNK */
-function speakNext() {
+  speakNext(); // 🔊 START SPEAKING
+}{
 
   if (paused) return;
   if (index >= chunks.length) return;
