@@ -69,27 +69,63 @@ Dictation playback view showing synchronized text highlighting and user-controll
 **System Architecture:**
 
 ![Architecture Diagram](docs/architecture.png)
-*Explain your system architecture - components, data flow, tech stack 
+<img width="1024" height="1536" alt="ChatGPT Image Feb 21, 2026, 07_45_41 AM" src="https://github.com/user-attachments/assets/d31493c8-8c40-49c8-ab10-04668f668026" />
 
-**Application Workflow:**
+*Application Workflow:**
+*<img width="1024" height="1536" alt="ChatGPT Image Feb 21, 2026, 07_45_41 AM" src="https://github.com/user-attachments/assets/0fab71be-a5dc-4baf-a00d-29bb732bb57a" />
 
-![Workflow](docs/workflow.png)
-*Add caption explaining your workflow*
+
+
 
 
 #### Build Photos
 
 ![Team](Add photo of your team here)
 
-![Components](Add photo of your components here)
-*List out all components shown*
 
-![Build](Add photos of build process here)
-*Explain the build steps*
+![Build]
+<img width="1366" height="768" alt="image" src="https://github.com/user-attachments/assets/4c561f8b-9b6e-459c-9176-507241f7ff4a" />
 
-![Final](Add photo of final product here)
+Step 1: Requirement Analysis
+
+The project requirements were identified, focusing on enabling users to listen to selected text from documents. Key needs included PDF upload support, selective text reading, adjustable reading speed, and user-friendly controls.
+
+Step 2: User Interface Design
+
+A simple and responsive user interface was designed using HTML and CSS. The interface includes a file upload option, a text area to display extracted text, sliders for controlling chunk size and delay, a voice selection dropdown, and playback control buttons.
+
+Step 3: PDF Text Extraction
+
+PDF upload functionality was implemented using PDF.js. When a user uploads a PDF file, the application reads the file in the browser and extracts the text content from all pages, displaying it inside the text area.
+
+Step 4: Text Selection and Processing
+
+The application allows users to highlight specific portions of the text. Only the selected text is processed. The selected text is then split into smaller chunks based on the user-defined number of words per chunk.
+
+Step 5: Text-to-Speech Integration
+
+The Web Speech API was used to convert text into speech. The application loads available system voices and allows users to choose a preferred voice for audio playback.
+
+Step 6: Audio Playback Controls
+
+Playback features such as start, pause, resume, and repeat were implemented. The application highlights the currently spoken text chunk in real time to improve clarity and user interaction.
+
+Step 7: Testing and Debugging
+
+The application was tested with different PDF files, text sizes, voices, and playback settings. Bugs related to file loading, chunk handling, and speech synchronization were identified and fixed.
+
+Step 8: Deployment
+
+The final version of the application was deployed using GitHub Pages. All files were hosted as a static website, making the application accessible through a public URL without any backend server.
+
+Step 9: Documentation and Finalization
+
+Project documentation was prepared, including feature descriptions, flowcharts, architecture diagrams, screenshots, and usage explanations.
+![Final]
+<img width="1316" height="655" alt="image" src="https://github.com/user-attachments/assets/5af7bed5-a32a-45f9-bac9-f26df66b4e5c" />
+
 *Explain the final build*
-
+The final build of the Smart Dictation Reader is a client-side web application designed to convert selected text from documents into controlled audio playback. The system is fully deployed using GitHub Pages and runs entirely in the browser without requiring any server-side processing.
 ---
 
 ## Additional Documentation
@@ -98,28 +134,25 @@ Dictation playback view showing synchronized text highlighting and user-controll
 ## Project Demo
 
 ### Video
-## 🎥 Demo Video
+## 🎥Click on Demo Video
 
-### Additional Demos
-[Add any extra demo materials/links - Live site, APK download, online demo, etc.]
+
 
 ---
 
 ## AI Tools Used (Optional - For Transparency Bonus)
 
-If you used AI tools during development, document them here for transparency:
 
 **Tool Used:**[ChatGPT]
 
-**Purpose:** [What you used it for]
-
+**Purpose:** 
+ChatGPT was used as an AI-assisted support tool to guide the design, development, and documentation of the Smart Dictation Reader web application. It helped in understanding technical concepts, generating and debugging JavaScript logic, structuring the web interface, and preparing clear documentation content such as feature descriptions, captions, and workflow explanations. This improved development efficiency, reduced errors, and enhanced clarity in both implementation and presentation.
 
 **Key Prompts Used:**
 - "Create a REST API endpoint for user authentication"
 - "Debug this async function that's causing race conditions"
 - "Optimize this database query for better performance"
 
-**Percentage of AI-generated code:** [Approximately X%]
 
 **Human Contributions:**
 - Architecture design and planning
