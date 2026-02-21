@@ -169,7 +169,7 @@ window.repeatChunk = function() {
   speechSynthesis.speak(new SpeechSynthesisUtterance(lastChunk));
 }
 
-/* LOAD VOICES */
+/* LOADING VOICES */
 function loadVoices() {
   voices = speechSynthesis.getVoices();
   voiceSelect.innerHTML = "";
