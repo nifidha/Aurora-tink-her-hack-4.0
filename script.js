@@ -131,6 +131,7 @@ function highlightChunk(currentIndex) {
   displayText.innerHTML = chunks
     .map((c,i)=>`<span class="${i===currentIndex?"current":"muted"} chunk" data-index="${i}">${c}</span>`)
     .join(" ");
+    setTimeout(scrollToCurrentChunk, 50);
 }
 
 /* PLAY/PAUSE */
@@ -183,3 +184,14 @@ function loadVoices() {
 speechSynthesis.onvoiceschanged = loadVoices;
 
 });
+function scrollToCurrentChunk() {
+
+  const current = document.querySelector(".current");
+  if (!current) return;
+
+  current.scrollIntoView({
+    behavior: "smooth",
+    block: "center",
+    inline: "nearest"
+  });
+}

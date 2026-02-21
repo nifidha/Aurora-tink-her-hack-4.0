@@ -178,3 +178,21 @@ button:hover {
   opacity: 1;
   transform: translateY(0);
 }
+
+/* Reading container */ 
+.reading-box {
+  background: #f1f5f9;
+  border-radius: 12px;
+  padding: 25px 25px 70px 25px; /* extra bottom space for buttons */
+  position: relative;
+}
+
+/* Sticky controls */
+.sticky-controls {
+  position: sticky;
+  bottom: 10px;
+  background: rgba(241,245,249,0.95);
+  backdrop-filter: blur(4px);
+  padding: 10px 0;
+  border-radius: 10px;
+}
