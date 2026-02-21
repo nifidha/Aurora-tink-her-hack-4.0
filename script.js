@@ -91,7 +91,7 @@ function startReading() {
   readingArea.style.display = "block";
 
   speakNext(); // 🔊 START SPEAKING
-}{
+  function speakNext() {
 
   if (paused) return;
   if (index >= chunks.length) return;
@@ -101,10 +101,11 @@ function startReading() {
 
   highlightChunk(index);
 
-const utter = new SpeechSynthesisUtterance(chunk);
+  const utter = new SpeechSynthesisUtterance(chunk);
 
-const selectedVoice = voices[voiceSelect.value];
-if (selectedVoice) utter.voice = selectedVoice;
+  const selectedVoice = voices[voiceSelect.value];
+  if (selectedVoice) utter.voice = selectedVoice;
+
   utter.onend = () => {
     if (!paused) {
       index++;
@@ -114,7 +115,7 @@ if (selectedVoice) utter.voice = selectedVoice;
 
   speechSynthesis.speak(utter);
 }
-
+ 
 /* HIGHLIGHT CURRENT CHUNK */
 function highlightChunk(currentIndex) {
 
