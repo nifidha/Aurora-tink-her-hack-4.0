@@ -64,7 +64,7 @@ function startReading() {
   const text = textBox.value.trim();
   const wordsPerChunk = parseInt(chunkSlider.value);
   const delay = parseInt(delaySlider.value) * 1000;
-
+  playPauseBtn.textContent = "⏸";
   currentDelay = delay;
   paused = false;
 
@@ -163,3 +163,45 @@ function loadVoices() {
 }
 
 speechSynthesis.onvoiceschanged = loadVoices;
+const playPauseBtn = document.getElementById("playPauseBtn");
+
+/* PLAY / PAUSE TOGGLE */
+function togglePlay() {
+
+  if (paused) {
+    paused = false;
+    playPauseBtn.textContent = "⏸";
+    speakNext();
+  } 
+  else {
+    paused = true;
+    speechSynthesis.cancel();
+    playPauseBtn.textContent = "▶";
+  }
+}
+
+/* NEXT CHUNK */
+function nextChunk() {
+
+  speechSynthesis.cancel();
+
+  if (index < chunks.length - 1) {
+    index++;
+    highlightChunk(index);
+  }
+
+  if (!paused) speakNext();
+}
+
+/* PREVIOUS CHUNK */
+function prevChunk() {
+
+  speechSynthesis.cancel();
+
+  if (index > 0) {
+    index--;
+    highlightChunk(index);
+  }
+
+  if (!paused) speakNext();
+}

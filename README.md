@@ -63,7 +63,7 @@ List the key features of your project:
 **System Architecture:**
 
 ![Architecture Diagram](docs/architecture.png)
-*Explain your system architecture - components, data flow, tech stack interaction*
+*Explain your system architecture - components, data flow, tech stack 
 
 **Application Workflow:**
 

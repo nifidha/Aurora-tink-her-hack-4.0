@@ -34,10 +34,24 @@
 
   <!-- CONTROL BUTTONS-->
   <div class="btns">
-  <button onclick="pauseReading()">Pause</button>
-  <button onclick="resumeReading()">Resume</button>
-  <button onclick="repeatChunk()">Repeat Last Chunk</button>
-  </div>
+
+  <button class="icon-btn" onclick="prevChunk()" data-label="Previous">
+    ⏮
+  </button>
+
+  <button id="playPauseBtn" class="icon-btn primary" onclick="togglePlay()" data-label="Play / Pause">
+    ▶
+  </button>
+
+  <button class="icon-btn" onclick="nextChunk()" data-label="Next">
+    ⏭
+  </button>
+
+  <button class="icon-btn" onclick="repeatChunk()" data-label="Repeat">
+    🔁
+  </button>
+
+</div>
   </div>
   
 
