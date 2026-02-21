@@ -57,14 +57,12 @@ The web app provides clear audio output with controls such as start, pause, resu
 
 #### Screenshots (Add at least 3)
 
-![Screenshot1](Add screenshot 1 here with proper name)
-*Add caption explaining what this shows*
-
-![Screenshot2](Add screenshot 2 here with proper name)
-*Add caption explaining what this shows*
-
-![Screenshot3](Add screenshot 3 here with proper name)
-*Add caption explaining what this shows*
+<img width="1359" height="659" alt="image" src="https://github.com/user-attachments/assets/0e8535ea-8c6f-43d2-9c5e-b6991f64b687" />
+Smart Dictation Reader web interface with PDF upload, customizable chunk size, delay, and voice selection
+<img width="1357" height="667" alt="image" src="https://github.com/user-attachments/assets/d3b728d6-ccbf-4a8e-9380-e2f3875716a5" />
+Live PDF-to-speech processing using the Smart Dictation Reader web application
+<img width="1341" height="653" alt="image" src="https://github.com/user-attachments/assets/19028d2e-1da3-4b4f-8a23-cb86b0ee5bd4" />
+Dictation playback view showing synchronized text highlighting and user-controlled navigation.
 
 #### Diagrams
 
