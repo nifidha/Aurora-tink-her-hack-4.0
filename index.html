@@ -1,80 +1,59 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Dictation Reader</title>
-  <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WriteFlow - Smart Dictation Reader</title>
+    <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-left">
+                <a href="index.html" class="logo">✍️ WriteFlow</a>
+            </div>
+            <div class="nav-right">
+                <button id="darkModeToggle" class="icon-btn nav-btn" aria-label="Toggle dark mode">
+                    🌙
+                </button>
+            </div>
+        </div>
+    </nav>
 
-<div class="container">
+    <!-- Hero Section -->
+    <main class="home-main">
+        <div class="hero-section">
+            <h1 class="hero-title">Transform Your Reading<br>Into Effortless Writing</h1>
+            <p class="hero-subtitle">Upload any document and let WriteFlow dictate it at your perfect pace. Perfect for students, note-takers, and language learners.</p>
+            
+            <!-- CTA Button -->
+            <a href="reader.html" class="cta-button">
+                <span class="cta-icon">🎧</span>
+                Read to Me
+            </a>
 
-  <h2>Smart Dictation Reader</h2>
+            <!-- Feature Cards -->
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">📚</div>
+                    <h3>Smart Dictation</h3>
+                    <p>Text is broken into manageable chunks with adjustable pauses between each phrase.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🎯</div>
+                    <h3>Multiple Formats</h3>
+                    <p>Upload PDF, TXT files or paste text directly. We support all your documents.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">⚡</div>
+                    <h3>Full Control</h3>
+                    <p>Adjust speed, repeat chunks, pause anytime - you're in complete control.</p>
+                </div>
+            </div>
+        </div>
+    </main>
 
-  <!-- FILE UPLOAD -->
-  <input type="file" id="fileInput" accept=".pdf,.txt">
-
-  <!-- INPUT + CONTROLS (STAYS VISIBLE) -->
-  <div id="inputArea">
-
-    <textarea id="text" rows="6" placeholder="Paste your notes here..."></textarea>
-
-    <div class="controls">
-
-      <label>Words per chunk: <span id="chunkValue">3</span></label>
-      <input type="range" id="chunk" min="1" max="20" value="3">
-
-      <label>Delay: <span id="delayValue">2</span>s</label>
-      <input type="range" id="delay" min="0" max="20" value="2">
-
-    </div>
-
-    <label>Select Voice:</label>
-    <select id="voiceSelect"></select>
-
-    <button onclick="startReading()">Start Dictation</button>
-
-  </div>
-  <div id="readingArea" style="display:none;">
-
-  <div class="reading-box">
-
-    <div id="displayText"></div>
-
-    <!-- STICKY CONTROLS -->
-    <div class="btns sticky-controls">
-
-      <button class="icon-btn" onclick="prevChunk()" data-label="Previous">
-        ⏮
-      </button>
-
-      <button id="playPauseBtn" class="icon-btn primary" onclick="togglePlay()" data-label="Play / Pause">
-        ▶
-      </button>
-
-      <button class="icon-btn" onclick="nextChunk()" data-label="Next">
-        ⏭
-      </button>
-
-      <button class="icon-btn" onclick="repeatChunk()" data-label="Repeat">
-        🔁
-      </button>
-
-    </div>
-
-  </div>
-
-</div>
-    </div>
-  </div>
-
-</div>
-
-<!-- PDF LIBRARY -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
-
-<!-- YOUR SCRIPT -->
-<script src="script.js"></script>
-
+    <script src="script.js"></script>
 </body>
 </html>

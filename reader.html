@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WriteFlow - Dictation Reader</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-left">
+                <a href="index.html" class="logo">✍️ WriteFlow</a>
+                <span class="nav-separator">|</span>
+                <span class="nav-page">Dictation Reader</span>
+            </div>
+            <div class="nav-right">
+                <button id="darkModeToggle" class="icon-btn nav-btn" aria-label="Toggle dark mode">
+                    🌙
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="reader-container">
+        <!-- Input Section -->
+        <div class="input-card">
+            <h2 class="section-title">📥 Input Your Text</h2>
+            
+            <!-- Input Type Toggle -->
+            <div class="input-toggle">
+                <button id="textToggle" class="toggle-btn active" onclick="switchInputMode('text')">
+                    <span>📝</span> Text
+                </button>
+                <button id="fileToggle" class="toggle-btn" onclick="switchInputMode('file')">
+                    <span>📁</span> File
+                </button>
+            </div>
+
+            <!-- Text Input Mode -->
+            <div id="textInputMode" class="input-mode active">
+                <textarea id="text" rows="6" placeholder="Paste your notes here... (e.g., 'The mitochondria is the powerhouse of the cell. It generates energy through cellular respiration.')"></textarea>
+            </div>
+
+            <!-- File Input Mode -->
+            <div id="fileInputMode" class="input-mode">
+                <div class="file-box" id="fileBox">
+                    <div class="file-icon">📂</div>
+                    <p class="file-title">Drop your file here</p>
+                    <p class="file-sub">Supports PDF, TXT files</p>
+                    <button class="file-btn" onclick="document.getElementById('fileInput').click()">Choose File</button>
+                    <input type="file" id="fileInput" accept=".pdf,.txt" hidden>
+                </div>
+                <p id="fileName" class="file-name"></p>
+            </div>
+
+            <!-- Settings Panel -->
+            <div class="settings-panel">
+                <div class="setting-item">
+                    <label>Words per chunk: <span id="chunkValue">3</span></label>
+                    <input type="range" id="chunk" min="1" max="20" value="3">
+                </div>
+
+                <div class="setting-item">
+                    <label>Pause delay: <span id="delayValue">2</span>s</label>
+                    <input type="range" id="delay" min="0" max="5" value="2" step="0.5">
+                </div>
+
+                <div class="setting-item">
+                    <label>Voice selection:</label>
+                    <select id="voiceSelect"></select>
+                </div>
+            </div>
+
+            <!-- Start Button -->
+            <button onclick="startReading()" class="start-btn">
+                <span>🎯</span> Start Dictation
+            </button>
+        </div>
+
+        <!-- Reading Area -->
+        <div id="readingArea" class="reading-card" style="display: none;">
+            <h2 class="section-title">📖 Dictation View</h2>
+            
+            <div class="reading-box" id="readingBox">
+                <div id="displayText" class="display-text"></div>
+                
+                <!-- Sticky Controls -->
+                <div class="sticky-controls">
+                    <button class="icon-btn" onclick="prevChunk()" data-label="Previous">⏮</button>
+                    <button id="playPauseBtn" class="icon-btn primary" onclick="togglePlay()">⏸</button>
+                    <button class="icon-btn" onclick="nextChunk()" data-label="Next">⏭</button>
+                    <button class="icon-btn" onclick="repeatChunk()" data-label="Repeat">🔁</button>
+                    <button class="icon-btn" onclick="toggleSpeedPanel()" data-label="Speed">⚡</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Speed Panel (Floating) -->
+    <div id="speedPanel" class="speed-panel">
+        <div class="speed-wrapper">
+            <button onclick="increaseSpeed()" class="speed-btn">+</button>
+            <input type="range" id="speedSlider" min="0.5" max="3.5" step="0.1" value="1" class="vertical-slider">
+            <button onclick="decreaseSpeed()" class="speed-btn">−</button>
+            <div class="speed-readout">
+                <span id="speedValue">1x</span><br>
+                <small id="wpmValue">180 WPM</small>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
