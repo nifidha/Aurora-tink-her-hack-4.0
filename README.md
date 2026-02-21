@@ -80,7 +80,9 @@ Dictation playback view showing synchronized text highlighting and user-controll
 
 #### Build Photos
 
-![Team](Add photo of your team here)
+![Team]
+![team photo](https://github.com/user-attachments/assets/731da148-92ca-4b88-aa68-c1833a40c527)
+
 
 
 ![Build]
@@ -140,7 +142,7 @@ The final build of the Smart Dictation Reader is a client-side web application d
 
 ---
 
-## AI Tools Used (Optional - For Transparency Bonus)
+## AI Tools Used 
 
 
 **Tool Used:**[ChatGPT]
@@ -160,7 +162,7 @@ ChatGPT was used as an AI-assisted support tool to guide the design, development
 - Integration and testing
 - UI/UX design decisions
 
-*Note: Proper documentation of AI usage demonstrates transparency and earns bonus points in evaluation!*
+
 
 ---
 
