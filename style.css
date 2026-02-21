@@ -13,7 +13,7 @@ body {
   background: white;
   padding: 30px;
   border-radius: 12px;
-  width: 600px;
+  width: 650px;
   box-shadow: 0 10px 25px rgba(0,0,0,0.1);
 }
 
@@ -27,29 +27,41 @@ h2 {
 textarea {
   width: 100%;
   padding: 12px;
-  border-radius: 8px;
+  border-radius: 10px;
   border: 1px solid #ccc;
   font-size: 15px;
   resize: vertical;
+  background: #f1f5f9;
 }
 
-/* Inputs row */
+/* Controls row */
 .controls {
   margin-top: 15px;
-  display: flex;
-  gap: 10px;
-  align-items: center;
 }
 
-/* Number inputs */
-input[type="number"] {
-  width: 70px;
-  padding: 6px;
-  border-radius: 6px;
+/* Slider labels */
+.controls label {
+  font-size: 14px;
+  display: block;
+  margin-top: 10px;
+}
+
+/* Sliders */
+input[type="range"] {
+  width: 100%;
+  margin-top: 5px;
+}
+
+/* Voice dropdown */
+select {
+  width: 100%;
+  padding: 10px;
+  border-radius: 8px;
+  margin-top: 10px;
   border: 1px solid #ccc;
 }
 
-/* Buttons */
+/* Start button */
 button {
   margin-top: 20px;
   padding: 12px 20px;
@@ -62,33 +74,16 @@ button {
   width: 100%;
 }
 
-.btns button {
-  margin-top: 10px;
-  margin-top: 10px;
-}
-
 button:hover {
   background: #3730a3;
 }
 
-/* Slider styling */
-input[type="range"] {
-  width: 100%;
-  margin-top: 5px;
-}
-
-/* Value labels */
-.controls label {
-  font-size: 14px;
-  margin-top: 10px;
-  display: block;
-}
-/* Reading panel */
+/* Reading area */
 #readingArea {
   margin-top: 20px;
 }
 
-/* Wide reading display */
+/* Text display */
 #displayText {
   font-size: 22px;
   line-height: 1.8;
@@ -97,33 +92,29 @@ input[type="range"] {
   background: #f1f5f9;
   min-height: 120px;
 }
+
 /* Current chunk */
 .current {
   color: #000;
   font-weight: bold;
 }
 
-/* Past + future chunks */
+/* Other chunks */
 .muted {
   color: #9ca3af;
 }
 
-select {
-  width: 100%;
-  padding: 10px;
-  border-radius: 8px;
-  margin-top: 10px;
-  border: 1px solid #ccc;
-}
-/* Button container */
-.btns {
-  display: flex;
-  justify-content: center;
-  gap: 18px;
-  margin-top: 20px;
+/* Clickable chunks */
+.chunk {
+  cursor: pointer;
+  transition: 0.15s;
 }
 
-/* Base icon button */
+.chunk:hover {
+  background: rgba(99,102,241,0.12);
+  border-radius: 4px;
+}
+
 /* Button container */
 .btns {
   display: flex;
@@ -132,7 +123,7 @@ select {
   margin-top: 20px;
 }
 
-/* Small circular buttons */
+/* Icon buttons */
 .icon-btn {
   width: 48px;
   height: 48px;
@@ -148,19 +139,17 @@ select {
   position: relative;
 }
 
-/* Hover effect */
 .icon-btn:hover {
   transform: translateY(-3px);
   box-shadow: 0 10px 16px rgba(0,0,0,0.15);
 }
 
-/* Press effect */
 .icon-btn:active {
   transform: translateY(0px);
   box-shadow: 0 4px 8px rgba(0,0,0,0.2);
 }
 
-/* Slightly bigger main button */
+/* Main play button */
 .icon-btn.primary {
   background: linear-gradient(135deg, #6366f1, #7c3aed);
   color: white;

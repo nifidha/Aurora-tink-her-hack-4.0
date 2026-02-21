@@ -1,26 +1,49 @@
 document.addEventListener("DOMContentLoaded", () => {
 
-  const fileInput = document.getElementById("fileInput");
-  const textArea = document.getElementById("text");
+let chunks = [];
+let index = 0;
+let lastChunk = "";
+let paused = false;
+let currentDelay = 0;
+let voices = [];
 
-  if (!fileInput || !textArea) {
-    console.error("File input or textarea not found");
+const textBox = document.getElementById("text");
+const chunkSlider = document.getElementById("chunk");
+const delaySlider = document.getElementById("delay");
+const chunkValue = document.getElementById("chunkValue");
+const delayValue = document.getElementById("delayValue");
+const readingArea = document.getElementById("readingArea");
+const displayText = document.getElementById("displayText");
+const voiceSelect = document.getElementById("voiceSelect");
+const playPauseBtn = document.getElementById("playPauseBtn");
+const fileInput = document.getElementById("fileInput");
+
+/* Slider labels */
+chunkSlider.oninput = () => chunkValue.textContent = chunkSlider.value;
+delaySlider.oninput = () => delayValue.textContent = delaySlider.value;
+
+/* FILE UPLOAD */
+fileInput.addEventListener("change", async () => {
+
+  const file = fileInput.files[0];
+  if (!file) return;
+
+  /* TXT FILE */
+  if (file.type === "text/plain" || file.name.endsWith(".txt")) {
+    const reader = new FileReader();
+    reader.onload = () => textBox.value = reader.result;
+    reader.readAsText(file);
     return;
   }
 
-  fileInput.addEventListener("change", async () => {
-    const file = fileInput.files[0];
-    if (!file) return;
+  /* PDF FILE */
+  if (file.type === "application/pdf") {
 
-    if (file.type !== "application/pdf") {
-      alert("Please upload a PDF file");
-      return;
-    }
-
-    textArea.value = "Reading PDF… please wait.";
+    textBox.value = "Reading PDF… please wait.";
 
     const reader = new FileReader();
     reader.onload = async function () {
+
       const typedarray = new Uint8Array(this.result);
       const pdf = await pdfjsLib.getDocument(typedarray).promise;
 
@@ -34,64 +57,51 @@ document.addEventListener("DOMContentLoaded", () => {
         });
       }
 
-      textArea.value = extractedText.trim();
+      textBox.value = extractedText.trim();
     };
 
     reader.readAsArrayBuffer(file);
-  });
-
+  }
 });
-let chunks = [];
-let index = 0;
-let lastChunk = "";
 
-let paused = false;
-let currentDelay = 0;
-let voices = [];
-const voiceSelect = document.getElementById("voiceSelect");
+/* CLICK TO JUMP */
+displayText.addEventListener("click", e => {
+  if (e.target.classList.contains("chunk")) {
+    index = parseInt(e.target.dataset.index);
+    paused = false;
+    playPauseBtn.textContent = "⏸";
+    speechSynthesis.cancel();
+    speakNext();
+  }
+});
 
-/* Elements */
-const textBox = document.getElementById("text");
-const chunkSlider = document.getElementById("chunk");
-const delaySlider = document.getElementById("delay");
-
-const chunkValue = document.getElementById("chunkValue");
-const delayValue = document.getElementById("delayValue");
-
-const inputArea = document.getElementById("inputArea");
-const readingArea = document.getElementById("readingArea");
-const displayText = document.getElementById("displayText");
-
-/* Slider labels update */
-chunkSlider.oninput = () => chunkValue.textContent = chunkSlider.value;
-delaySlider.oninput = () => delayValue.textContent = delaySlider.value;
-
-/* START DICTATION */
-function startReading() {
-  paused = false;
-  speechSynthesis.cancel();
+/* START */
+window.startReading = function() {
 
   const text = textBox.value.trim();
-  const wordsPerChunk = parseInt(chunkSlider.value);
-  const delay = parseInt(delaySlider.value) * 1000;
-  playPauseBtn.textContent = "⏸";
-  currentDelay = delay;
-  paused = false;
+  if (!text) return;
 
-  const words = textToRead.split(/\s+/);
+  const wordsPerChunk = parseInt(chunkSlider.value);
+  currentDelay = parseInt(delaySlider.value) * 1000;
+
+  const words = text.split(/\s+/);
   chunks = [];
 
-  for (let i = 0; i < words.length; i += chunkSize) {
-    chunks.push(words.slice(i, i + chunkSize).join(" "));
+  for (let i = 0; i < words.length; i += wordsPerChunk) {
+    chunks.push(words.slice(i, i + wordsPerChunk).join(" "));
   }
 
   index = 0;
+  paused = false;
 
-  inputArea.style.display = "none";
   readingArea.style.display = "block";
+  playPauseBtn.textContent = "⏸";
 
-  speakNext(); // 🔊 START SPEAKING
-}{
+  speakNext();
+}
+
+/* SPEAK */
+function speakNext() {
 
   if (paused) return;
   if (index >= chunks.length) return;
@@ -101,10 +111,11 @@ function startReading() {
 
   highlightChunk(index);
 
-const utter = new SpeechSynthesisUtterance(chunk);
+  const utter = new SpeechSynthesisUtterance(chunk);
 
-const selectedVoice = voices[voiceSelect.value];
-if (selectedVoice) utter.voice = selectedVoice;
+  const selectedVoice = voices[voiceSelect.value];
+  if (selectedVoice) utter.voice = selectedVoice;
+
   utter.onend = () => {
     if (!paused) {
       index++;
@@ -115,100 +126,60 @@ if (selectedVoice) utter.voice = selectedVoice;
   speechSynthesis.speak(utter);
 }
 
-/* HIGHLIGHT CURRENT CHUNK */
+/* HIGHLIGHT */
 function highlightChunk(currentIndex) {
-
-  let html = "";
-
-  chunks.forEach((c, i) => {
-    if (i === currentIndex) {
-      html += `<span class="current">${c}</span> `;
-    } else {
-      html += `<span class="muted">${c}</span> `;
-    }
-  });
-
-  displayText.innerHTML = html;
+  displayText.innerHTML = chunks
+    .map((c,i)=>`<span class="${i===currentIndex?"current":"muted"} chunk" data-index="${i}">${c}</span>`)
+    .join(" ");
 }
 
-/* REPEAT LAST CHUNK */
-function repeatChunk() {
-
-  if (!lastChunk) return;
-
-  speechSynthesis.cancel();
-
-const utter = new SpeechSynthesisUtterance(lastChunk);
-const selectedVoice = voices[voiceSelect.value];
-if (selectedVoice) utter.voice = selectedVoice;  speechSynthesis.speak(utter);
-}
-
-/* PAUSE */
-function pauseReading() {
-  paused = true;
-  speechSynthesis.cancel();
-}
-
-/* RESUME */
-function resumeReading() {
-  if (!paused) return;
-  paused = false;
-  speakNext();
-}
-
-function loadVoices() {
-
-  voices = speechSynthesis.getVoices();
-  voiceSelect.innerHTML = "";
-
-  voices.forEach((voice, i) => {
-    const option = document.createElement("option");
-    option.value = i;
-    option.textContent = `${voice.name} (${voice.lang})`;
-    voiceSelect.appendChild(option);
-  });
-}
-
-speechSynthesis.onvoiceschanged = loadVoices;
-const playPauseBtn = document.getElementById("playPauseBtn");
-
-/* PLAY / PAUSE TOGGLE */
-function togglePlay() {
-
+/* PLAY/PAUSE */
+window.togglePlay = function() {
   if (paused) {
     paused = false;
     playPauseBtn.textContent = "⏸";
     speakNext();
-  } 
-  else {
+  } else {
     paused = true;
-    speechSynthesis.cancel();
     playPauseBtn.textContent = "▶";
+    speechSynthesis.cancel();
   }
 }
 
-/* NEXT CHUNK */
-function nextChunk() {
-
+/* NEXT */
+window.nextChunk = function() {
   speechSynthesis.cancel();
-
-  if (index < chunks.length - 1) {
-    index++;
-    highlightChunk(index);
-  }
-
+  if (index < chunks.length - 1) index++;
+  highlightChunk(index);
   if (!paused) speakNext();
 }
 
-/* PREVIOUS CHUNK */
-function prevChunk() {
-
+/* PREVIOUS */
+window.prevChunk = function() {
   speechSynthesis.cancel();
-
-  if (index > 0) {
-    index--;
-    highlightChunk(index);
-  }
-
+  if (index > 0) index--;
+  highlightChunk(index);
   if (!paused) speakNext();
 }
+
+/* REPEAT */
+window.repeatChunk = function() {
+  if (!lastChunk) return;
+  speechSynthesis.cancel();
+  speechSynthesis.speak(new SpeechSynthesisUtterance(lastChunk));
+}
+
+/* LOAD VOICES */
+function loadVoices() {
+  voices = speechSynthesis.getVoices();
+  voiceSelect.innerHTML = "";
+  voices.forEach((v,i)=>{
+    const opt=document.createElement("option");
+    opt.value=i;
+    opt.textContent=`${v.name} (${v.lang})`;
+    voiceSelect.appendChild(opt);
+  });
+}
+speechSynthesis.onvoiceschanged = loadVoices;
+
+});
